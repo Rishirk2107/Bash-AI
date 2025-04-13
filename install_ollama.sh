@@ -1,5 +1,3 @@
-#!/bin/bash
-
 echo "🔍 Checking if Ollama is already installed..."
 if command -v ollama &> /dev/null
 then
