@@ -1,6 +1,6 @@
 # 🐧 Bash-AI: Linux Command Assistant using Ollama
 
-This project uses [Ollama](https://ollama.com) to run a lightweight AI model (`dagbs/qwen2.5-coder-0.5b-instruct-abliterated`) that answers Linux command-related questions and gives suggestions interactively from the terminal.
+This project uses [Ollama](https://ollama.com) to run a lightweight AI model (`qwen2.5-coder:1.5b`) that answers Linux command-related questions and gives suggestions interactively from the terminal.
 
 ---
 
