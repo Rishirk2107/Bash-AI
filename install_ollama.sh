@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "🔍 Checking if Ollama is already installed..."
 if command -v ollama &> /dev/null
 then
@@ -17,8 +19,29 @@ else
     fi
 fi
 
-echo "🚀 Starting the model in background: dagbs/qwen2.5-coder-0.5b-instruct-abliterated"
-nohup ollama run dagbs/qwen2.5-coder-0.5b-instruct-abliterated > ollama_output.log 2>&1 &
+# 🧠 Detect best model based on RAM
+chmod +x detect_model.sh
+./detect_model.sh
+if [ $? -ne 0 ]; then
+    echo "❌ Model selection failed due to insufficient RAM."
+    exit 1
+fi
+
+MODEL_NAME=$(cat .model_name)
+
+echo "🚀 Model selected based on RAM: $MODEL_NAME"
+
+# Pull model and show the installation output
+echo "📦 Pulling model: $MODEL_NAME ..."
+ollama pull "$MODEL_NAME"
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to pull model: $MODEL_NAME"
+    exit 1
+fi
+
+echo "🚀 Starting the model in background: $MODEL_NAME"
+nohup ollama run "$MODEL_NAME" > ollama_output.log 2>&1 &
 
 echo "⌛ Waiting 5 seconds for Ollama to warm up..."
 sleep 5
