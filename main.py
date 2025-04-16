@@ -28,10 +28,12 @@ def extract_command(response):
 
 def execute_command(command):
     try:
-        output = subprocess.check_output(command + " 2>/dev/null", shell=True, stderr=subprocess.STDOUT, text=True)
-        print("🖥️ Command Output:\n" + output)
+        bwrap_cmd = f"bwrap --ro-bind / / --dev /dev --proc /proc --tmpfs /tmp sh -c \"{command}\""
+        output = subprocess.check_output(bwrap_cmd, shell=True, stderr=subprocess.STDOUT, text=True)
+        print("🖥️ [bwrap] Command Output:\n" + output)
     except subprocess.CalledProcessError as e:
-        print("⚠️ Error while executing the command:\n" + e.output)
+        print("⚠️ Error in sandbox:\n" + e.output)
+
 
 if __name__ == "__main__":
     print("👨‍💻 Ask anything about Linux commands (type 'exit' to quit):")
