@@ -28,27 +28,25 @@ def extract_command(response):
 
 def execute_command(command):
     try:
-        bwrap_cmd = f"bwrap --ro-bind / / --dev /dev --proc /proc --tmpfs /tmp sh -c \"{command}\""
-        output = subprocess.check_output(bwrap_cmd, shell=True, stderr=subprocess.STDOUT, text=True)
-        print("🖥️ [bwrap] Command Output:\n" + output)
+        output = subprocess.check_output(command + " 2>/dev/null", shell=True, stderr=subprocess.STDOUT, text=True)
+        print("🖥️ Command Output:\n" + output)
     except subprocess.CalledProcessError as e:
-        print("⚠️ Error in sandbox:\n" + e.output)
-
+        print("Error while executing the command:\n" + e.output)
 
 if __name__ == "__main__":
-    print("👨‍💻 Ask anything about Linux commands (type 'exit' to quit):")
+    print("Ask anything about Linux commands (type 'exit' to quit):")
     while True:
-        user_input = input("🧠 You: ")
+        user_input = input("You: ")
         if user_input.lower() in ("exit", "quit"):
             break
 
         response = ask_linux_question(user_input)
-        print(f"\n🤖 Ollama:\n{response}\n")
+        print(f"\nOllama:\n{response}\n")
 
         command = extract_command(response)
         if command:
-            confirm = input(f"⚙️ Detected command:\n`{command}`\n👉 Execute this command? (yes/no): ").strip().lower()
+            confirm = input(f"⚙️ Detected command:\n`{command}`\nExecute this command? (yes/no): ").strip().lower()
             if confirm in ("y", "yes"):
                 execute_command(command)
             else:
-                print("❌ Skipped command execution.\n")
+                print("Skipped command execution.\n")
