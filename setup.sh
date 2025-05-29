@@ -1,4 +1,11 @@
-#!/bin/bash
+echo "🧠"
+echo " ____            _        _    ___ "
+echo "| __ )  __ _ ___| |__    / \  |_ _|"
+echo "|  _ \ / _\` / __| '_ \  / _ \  | | "
+echo "| |_) | (_| \__ \ | | |/ ___ \ | | "
+echo "|____/ \__,_|___/_| |_/_/   \_\___|"
+echo ""
+echo ""
 
 echo "Checking if Ollama is already installed..."
 if command -v ollama &> /dev/null
@@ -19,7 +26,7 @@ else
     fi
 fi
 
-# 🧠 Detect best model based on RAM
+# Detect best model based on RAM
 chmod +x detect_model.sh
 ./detect_model.sh
 if [ $? -ne 0 ]; then
@@ -29,9 +36,8 @@ fi
 
 MODEL_NAME=$(cat .model_name)
 
-echo "🚀 Model selected based on RAM: $MODEL_NAME"
+echo " Model selected based on RAM: $MODEL_NAME"
 
-# Pull model and show the installation output
 echo "Pulling model: $MODEL_NAME ..."
 ollama pull "$MODEL_NAME"
 

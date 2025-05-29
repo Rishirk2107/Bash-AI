@@ -29,7 +29,7 @@ def extract_command(response):
 def execute_command(command):
     try:
         output = subprocess.check_output(command + " 2>/dev/null", shell=True, stderr=subprocess.STDOUT, text=True)
-        print("🖥️ Command Output:\n" + output)
+        print("Command Output:\n" + output)
     except subprocess.CalledProcessError as e:
         print("Error while executing the command:\n" + e.output)
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
         command = extract_command(response)
         if command:
-            confirm = input(f"⚙️ Detected command:\n`{command}`\nExecute this command? (yes/no): ").strip().lower()
+            confirm = input(f" Detected command:\n`{command}`\nExecute this command? (yes/no): ").strip().lower()
             if confirm in ("y", "yes"):
                 execute_command(command)
             else:
